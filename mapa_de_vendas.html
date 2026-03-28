@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa de Vendas · Nutri que Lucra</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1410;--ink2:#2a1f15;
+  --gold:#9d8768;--gd:#6b5740;--gl:#c4b49e;--gp:#f5efe8;
+  --cream:#faf7f3;--sand:#ede5d8;--muted:#7a6a58;--ghost:#b09880;
+  --white:#fff;
+  --green:#2a6e47;--gn2:#edf7f1;
+  --red:#b03a2e;--rp:#fdf0ee;
+  --blue:#1d4ed8;--bp:#eff6ff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:14px}
+
+/* NAV */
+.nav{background:var(--ink2);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:99;border-bottom:1px solid rgba(196,180,158,.1)}
+.nav-logo{font-family:'Lora',serif;font-size:15px;font-weight:700;color:var(--white)}
+.nav-logo em{color:var(--gl);font-style:italic}
+.nav-logo small{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(196,180,158,.4);font-family:'Poppins',sans-serif;font-weight:400;margin-top:1px}
+.nav-tag{font-size:10px;color:var(--gl);border:1px solid rgba(196,180,158,.2);padding:3px 13px;border-radius:99px}
+
+/* HERO */
+.hero{background:var(--ink2);padding:52px 32px 44px;text-align:center;border-bottom:1px solid rgba(196,180,158,.08)}
+.hero-eye{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(196,180,158,.4);margin-bottom:12px}
+.hero h1{font-family:'Lora',serif;font-size:clamp(26px,4.5vw,40px);font-weight:700;color:var(--white);line-height:1.13;margin-bottom:10px}
+.hero h1 em{color:var(--gl);font-style:italic}
+.hero p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.75;max-width:500px;margin:0 auto 26px}
+.hero-nums{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+.hn-n{font-family:'Lora',serif;font-size:24px;font-weight:700;color:var(--gl)}
+.hn-l{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.04em;margin-top:1px}
+
+/* BANNERS */
+.banner-w{background:var(--green);padding:11px 32px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;gap:9px}
+.banner-w strong{color:#86efac}
+.banner-c{background:rgba(176,58,46,.08);border-bottom:1px solid rgba(176,58,46,.12);padding:8px 32px;text-align:center;font-size:11px;color:#7a2d24}
+
+/* WRAP */
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 80px}
+
+/* SEÇÃO */
+.s-head{display:flex;align-items:center;gap:12px;padding:44px 0 16px}
+.s-n{font-family:'Lora',serif;font-size:11px;font-weight:700;color:var(--gold);opacity:.5}
+.s-ttl{font-family:'Lora',serif;font-size:18px;font-weight:600;color:var(--ink)}
+.s-ttl em{color:var(--gold);font-style:italic}
+.s-line{flex:1;height:1px;background:rgba(196,180,158,.2)}
+
+/* REGRAS */
+.regras{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:4px}
+.regra{background:var(--white);border:1px solid rgba(196,180,158,.18);border-radius:10px;padding:14px}
+.regra-t{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.regra-d{font-size:11.5px;color:var(--muted);line-height:1.55}
+
+/* FUNIL */
+.funil{background:var(--white);border:1px solid rgba(196,180,158,.18);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.f-hdr{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;transition:background .15s;user-select:none}
+.f-hdr:hover,.funil.open .f-hdr{background:var(--gp)}
+.funil.open .f-hdr{border-bottom:1px solid rgba(196,180,158,.13)}
+.fbadge{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:99px;flex-shrink:0}
+.bw{background:#dcfce7;color:#14532d}
+.bi{background:#fce7f3;color:#831843}
+.bm{background:var(--gp);color:var(--gd)}
+.bs{background:var(--bp);color:var(--blue)}
+.f-meta{flex:1;min-width:0}
+.f-ttl{font-family:'Lora',serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.f-desc{font-size:11.5px;color:var(--ghost);line-height:1.45}
+.f-tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.ftag{font-size:10px;padding:2px 8px;border-radius:99px;background:var(--sand);color:var(--muted)}
+.f-stats{display:flex;gap:16px;flex-shrink:0;text-align:right}
+.fs-n{font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--gold);display:block}
+.fs-l{font-size:10px;color:var(--ghost)}
+.fchv{color:var(--ghost);font-size:12px;transition:transform .25s;flex-shrink:0}
+.funil.open .fchv{transform:rotate(180deg)}
+.fbody{display:none;padding:0 20px 22px}
+.funil.open .fbody{display:block;animation:su .25s ease}
+@keyframes su{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* CHECKLIST */
+.ck{background:var(--bp);border:1px solid rgba(29,78,216,.1);border-radius:9px;padding:14px;margin:14px 0}
+.ck-t{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.ck-t::after{content:'';flex:1;height:1px;background:rgba(29,78,216,.12)}
+.ci{display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:1px dashed rgba(29,78,216,.09);cursor:pointer;user-select:none;font-size:12px;color:var(--ink);line-height:1.5}
+.ci:last-child{border-bottom:none;padding-bottom:0}
+.ci.done{opacity:.4;text-decoration:line-through}
+.cbox{width:14px;height:14px;border-radius:3px;border:1.5px solid rgba(29,78,216,.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;color:transparent;margin-top:1px;transition:all .15s}
+.ci.done .cbox{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* MÉTRICAS */
+.mets{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.met{background:var(--gn2);border:1px solid rgba(42,110,71,.12);border-radius:8px;padding:10px 13px;flex:1;min-width:110px}
+.met-n{font-family:'Lora',serif;font-size:17px;font-weight:700;color:var(--green)}
+.met-l{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* FASE */
+.fase{font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:16px 0 9px;display:flex;align-items:center;gap:7px}
+.fase::after{content:'';flex:1;height:1px;background:rgba(196,180,158,.18)}
+
+/* PASSO / DIA */
+.passos{display:flex;flex-direction:column;gap:7px}
+.passo{border-radius:8px;border:1px solid rgba(196,180,158,.14);overflow:hidden}
+.p-hdr{display:flex;align-items:center;gap:9px;padding:9px 13px;background:var(--sand);cursor:pointer;user-select:none;transition:background .15s}
+.p-hdr:hover,.passo.open .p-hdr{background:var(--gp)}
+.pnum{font-family:'Lora',serif;font-size:10.5px;font-weight:700;color:var(--gold);min-width:60px;flex-shrink:0}
+.pttl{font-size:12px;font-weight:500;color:var(--ink);flex:1}
+.pobj{font-size:11px;color:var(--muted)}
+.pchv{color:var(--ghost);font-size:11px;transition:transform .22s;flex-shrink:0}
+.passo.open .pchv{transform:rotate(180deg)}
+.pbody{display:none;padding:13px;background:var(--white)}
+.passo.open .pbody{display:block;animation:su .2s ease}
+.p-obj{font-size:11.5px;color:var(--muted);font-style:italic;margin-bottom:11px;padding-bottom:9px;border-bottom:1px dashed rgba(196,180,158,.18)}
+
+/* SCRIPT */
+.sw{margin-bottom:9px}
+.slbl{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.sbox{background:var(--ink2);border-radius:8px;padding:13px}
+.sbox pre{font-family:'Poppins',sans-serif;font-size:12.5px;color:rgba(255,255,255,.78);line-height:1.8;white-space:pre-wrap;word-break:break-word}
+.sbox pre em{color:var(--gl);font-style:normal}
+.bcopy{background:rgba(196,180,158,.1);border:1px solid rgba(196,180,158,.2);color:var(--gl);font-family:'Poppins',sans-serif;font-size:9.5px;font-weight:600;padding:3px 10px;border-radius:99px;cursor:pointer;letter-spacing:.04em;transition:all .15s;flex-shrink:0}
+.bcopy:hover{background:rgba(196,180,158,.2)}
+.bcopy.ok{background:rgba(42,110,71,.15);border-color:rgba(42,110,71,.25);color:#4ade80}
+
+/* DICA */
+.dica{background:var(--gp);border:1px solid rgba(196,180,158,.18);border-radius:7px;padding:9px 12px;margin:7px 0;font-size:11.5px;color:var(--muted);line-height:1.6;display:flex;gap:7px}
+.dica strong{color:var(--ink);font-weight:500}
+
+/* IF/THEN */
+.ift{display:flex;gap:7px;margin:7px 0;flex-wrap:wrap}
+.ifb,.thb{border-radius:7px;padding:9px 11px;font-size:11.5px;flex:1;min-width:140px;line-height:1.5}
+.ifb{background:var(--rp);border:1px solid rgba(176,58,46,.1);color:var(--red)}
+.thb{background:var(--gn2);border:1px solid rgba(42,110,71,.1);color:var(--green)}
+.ifb strong,.thb strong{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px}
+
+/* DARK SECTION */
+.dark-sec{background:var(--ink2);border-radius:10px;padding:20px;margin-top:14px}
+.dark-ttl{font-family:'Lora',serif;font-size:14px;font-weight:600;color:var(--white);margin-bottom:3px}
+.dark-ttl em{color:var(--gl);font-style:italic}
+.dark-sub{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:13px}
+.dark-item{font-size:12px;color:rgba(255,255,255,.6);padding:6px 9px;background:rgba(255,255,255,.04);border-radius:6px;margin-bottom:5px;display:flex;gap:7px;line-height:1.5;align-items:flex-start}
+.dark-item::before{content:'→';color:var(--gl);flex-shrink:0;margin-top:1px}
+
+/* CONTEÚDO PERMANENTE */
+.cp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin:11px 0}
+.cp-card{background:var(--white);border:1px solid rgba(196,180,158,.15);border-radius:8px;padding:12px}
+.cp-sem{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.cp-t{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:3px;line-height:1.35}
+.cp-d{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* FORMULÁRIO */
+.form-box{background:var(--white);border:1px solid rgba(196,180,158,.18);border-radius:9px;padding:18px;margin:12px 0}
+.form-ttl{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.fq{display:flex;gap:9px;padding:8px 0;border-bottom:1px dashed rgba(196,180,158,.18);font-size:12px;line-height:1.55;align-items:flex-start}
+.fq:last-child{border-bottom:none;padding-bottom:0}
+.fq-n{font-family:'Lora',serif;font-weight:700;color:var(--gold);font-size:12.5px;flex-shrink:0;min-width:20px}
+.fq-txt em{display:block;font-size:10.5px;color:var(--ghost);margin-top:2px;font-style:italic}
+
+/* CANVA LINK */
+.canva-btn{display:flex;align-items:center;gap:11px;background:var(--bp);border:1px solid rgba(29,78,216,.14);border-radius:9px;padding:13px 16px;text-decoration:none;color:var(--ink);margin:11px 0;transition:all .2s}
+.canva-btn:hover{border-color:var(--blue);transform:translateY(-1px)}
+.canva-btn-t{font-size:12.5px;font-weight:500;color:var(--ink)}
+.canva-btn-s{font-size:11px;color:var(--muted);margin-top:1px}
+.canva-btn-arr{margin-left:auto;color:var(--blue);font-size:15px;flex-shrink:0}
+
+/* FOOTER */
+.footer{text-align:center;padding:24px;border-top:1px solid rgba(196,180,158,.12)}
+.footer-logo{font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--gd);margin-bottom:5px}
+.footer-logo em{color:var(--gold);font-style:italic}
+.footer p{font-size:11px;color:var(--ghost);line-height:1.7}
+
+@media(max-width:620px){
+  .nav{padding:0 18px}
+  .hero{padding:40px 18px 36px}
+  .wrap,.banner-w,.banner-c{padding-left:18px;padding-right:18px}
+  .f-stats{display:none}
+  .ift{flex-direction:column}
+  .regras{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">nutri <em>que lucra</em><small>Mapa de Vendas</small></div>
+  <div class="nav-tag">✦ Exclusivo para alunas</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eye">10 funis completos · Scripts prontos</div>
+  <h1>Do primeiro contato<br>até o <em>fechamento</em></h1>
+  <p>Scripts prontos, passo a passo detalhado e cadência de follow-up para cada situação. WhatsApp em primeiro lugar, sempre.</p>
+  <div class="hero-nums">
+    <div><div class="hn-n">10</div><div class="hn-l">Funis completos</div></div>
+    <div><div class="hn-n">60+</div><div class="hn-l">Scripts prontos</div></div>
+    <div><div class="hn-n">13</div><div class="hn-l">Contatos estratégicos</div></div>
+    <div><div class="hn-n">∞</div><div class="hn-l">Conteúdo permanente</div></div>
+  </div>
+</section>
+<div class="banner-w">📱 <strong>WhatsApp é soberano.</strong> Acima de qualquer rede social. Todo funil começa e termina no WhatsApp.</div>
+<div class="banner-c">🔒 Material exclusivo para alunas. Compartilhar com terceiros é crime previsto na Lei 9.610/98.</div>
+
+<div class="wrap">
+
+<!-- REGRAS -->
+<div class="s-head"><span class="s-n">00</span><h2 class="s-ttl">As <em>regras do jogo</em></h2><div class="s-line"></div></div>
+<div class="regras">
+  <div class="regra"><div class="regra-t">🎯 Meta diária obrigatória</div><div class="regra-d">Mínimo 20 conversas abertas por dia. Sem prospecção não tem fechamento.</div></div>
+  <div class="regra"><div class="regra-t">📱 WhatsApp primeiro, sempre</div><div class="regra-d">Instagram gera interesse. WhatsApp gera venda. Mova o lead para lá o quanto antes.</div></div>
+  <div class="regra"><div class="regra-t">🎙️ Áudio cria conexão</div><div class="regra-d">Sempre que possível, mande áudio. A voz humaniza e gera confiança. Texto sozinho vende menos.</div></div>
+  <div class="regra"><div class="regra-t">🚫 Nunca empurre preço cedo</div><div class="regra-d">Preço antes do valor é objeção garantida. Apresente método, experiência e prova social primeiro.</div></div>
+  <div class="regra"><div class="regra-t">🔄 Follow-up até o fim</div><div class="regra-d">80% das vendas acontecem a partir do 5º contato. Siga até comprar ou bloquear.</div></div>
+  <div class="regra"><div class="regra-t">💛 Leveza vende mais</div><div class="regra-d">Não force. Direcione com carinho. Urgência real funciona. Urgência falsa afasta para sempre.</div></div>
+  <div class="regra"><div class="regra-t">📊 Anote tudo</div><div class="regra-d">Nome, objetivo, data do contato, resposta, estágio. Sem registro não tem previsibilidade.</div></div>
+  <div class="regra"><div class="regra-t">🏷️ Use etiquetas no WhatsApp</div><div class="regra-d">Quente, Morno, Frio, Negociando, Fechado. Filtra e aborda por grupo com facilidade.</div></div>
+</div>
+
+<!-- FUNIS -->
+<div class="s-head"><span class="s-n">01</span><h2 class="s-ttl"><em>10 Funis</em> de Venda</h2><div class="s-line"></div></div>
+
+<!-- ══ F1 ══ -->
+<div class="funil" id="f1">
+  <div class="f-hdr" onclick="tF('f1')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Lead Iniciou a Conversa</div>
+      <div class="f-desc">O lead chegou até você. Conduza do "oi" ao fechamento em 5 passos.</div>
+      <div class="f-tags"><span class="ftag">Captação orgânica</span><span class="ftag">Alta conversão</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">1 dia</span><span class="fs-l">Duração</span></div><div><span class="fs-n">40–60%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="ck">
+      <div class="ck-t">✅ Prepare antes de responder</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Lâminas de programa prontas para enviar</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>3 provas sociais de impacto separadas (antes/depois, prints de WhatsApp)</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Preço e condições na ponta da língua</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Link de pagamento pronto no celular</div>
+    </div>
+    <div class="passos">
+      <div class="passo" id="f1p1"><div class="p-hdr" onclick="tP('f1p1')"><span class="pnum">PASSO 1</span><span class="pttl">Abertura e conexão</span><span class="pobj">· Entender o objetivo antes de falar de preço</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="p-obj">Criar conexão real, mostrar interesse genuíno, entender a dor antes de qualquer valor.</div>
+          <div class="sw"><div class="slbl">Mensagem de abertura <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, maravilhosa! Que bom te ter aqui. 💛
+
+Antes de te falar sobre valores, quero entender melhor o que te trouxe até mim, pra poder te direcionar com mais clareza.
+
+Me conta: hoje, qual é o seu maior objetivo com a nutrição?</pre></div></div>
+          <div class="dica">🎙️ <div>Mande em <strong>áudio primeiro</strong>, depois repita o texto escrito. O áudio aquece. O texto garante a leitura.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f1p2"><div class="p-hdr" onclick="tP('f1p2')"><span class="pnum">PASSO 2</span><span class="pttl">Valide e apresente o método</span><span class="pobj">· Criar desejo pela experiência, não pelo preço</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Validação do objetivo <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre><em>[Nome]</em>, hoje seu objetivo de <em>[repita o objetivo dela]</em> é totalmente possível e sem dietas malucas!
+
+Mas antes de te falar sobre valores, quero te apresentar como funciona meu acompanhamento pra esse ser nosso ponto de partida. 🤍</pre></div></div>
+          <div class="sw"><div class="slbl">Apresentação do método (áudio + texto) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Quero te apresentar como funciona minha consulta nutricional, porque antes dos valores é importante você saber o que vai viver logo no primeiro atendimento. 💛
+
+✔ Agendamos sua consulta e te envio ficha pré-consulta mais link para avaliação física.
+✔ Na consulta, construímos juntas sua linha do tempo alimentar e emocional.
+✔ Analisamos sua avaliação com base no seu corpo real, rotina e objetivos.
+✔ Juntas montamos seu plano alimentar na hora, baseado nas suas preferências, horários e gostos reais.
+
+Você sai com sua dieta pronta, feita com você e para você, aplicável imediatamente.
+
+E você não fica sozinha depois: suporte ativo e acesso à minha área de membros exclusiva. 🤍
+
+Posso te mostrar as formas de pagamento?</pre></div></div>
+          <div class="dica">💡 <div>A última pergunta <strong>escreva também</strong> após o áudio. Isso cria curiosidade e força uma resposta.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f1p3"><div class="p-hdr" onclick="tP('f1p3')"><span class="pnum">PASSO 3</span><span class="pttl">Prova social e posicionamento</span><span class="pobj">· Construir confiança com resultados reais</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Envio de provas sociais <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Deixa eu te mostrar alguns feedbacks reais de pacientes que viveram esse processo. Vou te encaminhar pra você sentir o que é possível viver também! 💛</pre></div></div>
+          <div class="dica">📎 <div>Envie <strong>no máximo 3 provas</strong>: antes/depois, prints de WhatsApp, depoimentos reais. 3 fortes valem mais que 10 mediocres.</div></div>
+          <div class="sw"><div class="slbl">Posicionamento do método <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Com a minha metodologia <em>[NOME DO MÉTODO]</em>, algumas pacientes relatam resultado já na primeira semana:
+
+✔ Redução de inchaço
+✔ De 1 a 3kg a menos
+✔ Tudo sem dieta maluca, sem restrição, com escolhas inteligentes que cabem na vida real.
+
+Tudo personalizado, validado e que respeita sua fase, rotina e história.</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f1p4"><div class="p-hdr" onclick="tP('f1p4')"><span class="pnum">PASSO 4</span><span class="pttl">Pacotes e valores</span><span class="pobj">· Apresentar opções e facilitar a decisão</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Envio das lâminas <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Vou te enviar agora as opções de programas que tenho. Você vai ver o que está incluso, o tempo de acompanhamento e os diferenciais. 📎</pre></div></div>
+          <div class="dica">📎 <div>Envie as lâminas <strong>sem os valores ainda</strong>. Espere ela escolher. Só então revele o preço.</div></div>
+          <div class="sw"><div class="slbl">Pergunta de escolha <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Entre esses, qual faz mais sentido com o seu momento de vida agora?</pre></div></div>
+          <div class="sw"><div class="slbl">Valores e bônus <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Perfeito! Maravilhosa, o <em>[NOME DO PROGRAMA]</em> está no valor cheio de R$<em>[XX]</em>.
+
+Mas como você ainda não conhece meu trabalho por dentro, e eu realmente quero que você viva esse processo, hoje ele fica pra você por R$<em>[XX]</em> à vista, ou 12x de R$<em>[XXX]</em> no cartão.
+
+E quem garante a vaga agora recebe também: o e-book <em>[NOME]</em>, que não está disponível na comunidade. 🎁
+
+Em qual forma de pagamento você prefere, pix ou crédito? 💳</pre></div></div>
+          <div class="dica">⚠️ <div><strong>A pergunta "pix ou crédito" é obrigatória por escrito.</strong> A pergunta fechada direciona a decisão sem pressão.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f1p5"><div class="p-hdr" onclick="tP('f1p5')"><span class="pnum">PASSO 5</span><span class="pttl">Sinal e urgência</span><span class="pobj">· Fechar com leveza quando ela hesita</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de sinal <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Se quiser garantir sua vaga com um sinal de R$150 hoje, consigo manter essas condições por 48h pra você se organizar com o restante.
+
+Quer fazer assim? 🤍</pre></div></div>
+          <div class="dica">💛 <div>Ofereça uma vez, com leveza. Se não aceitar, inicie a cadência de follow-up.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F2 ══ -->
+<div class="funil" id="f2">
+  <div class="f-hdr" onclick="tF('f2')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Reativação de Pacientes</div>
+      <div class="f-desc">Pacientes que sumiram. O público mais quente que você tem e provavelmente ignora.</div>
+      <div class="f-tags"><span class="ftag">Ex-pacientes</span><span class="ftag">Alta conversão</span><span class="ftag">7 dias</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">7 dias</span><span class="fs-l">Duração</span></div><div><span class="fs-n">20–40%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>Por que funciona:</strong> esse público já confia em você, viveu a experiência e tem vínculo emocional. Você não precisa convencer, precisa reconectar.</div></div>
+    <div class="ck">
+      <div class="ck-t">✅ Antes de começar</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Puxar lista de ex-pacientes dos últimos 24 meses</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Separar por vínculo: forte, médio, fraco (etiquetas no WhatsApp)</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Anotar objetivo original de cada uma</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Preparar 3 provas sociais e uma condição especial de retorno</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Meta: 20 a 30 conversas abertas por dia</div>
+    </div>
+    <div class="mets">
+      <div class="met"><div class="met-n">30%</div><div class="met-l">Taxa de resposta em 48h</div></div>
+      <div class="met"><div class="met-n">50%</div><div class="met-l">Reabertura de quem respondeu</div></div>
+      <div class="met"><div class="met-n">R$1k–10k</div><div class="met-l">Meta de caixa por ciclo</div></div>
+    </div>
+    <div class="passos">
+      <div class="passo" id="f2d1"><div class="p-hdr" onclick="tP('f2d1')"><span class="pnum">DIA 1</span><span class="pttl">Abertura de conversas</span><span class="pobj">· Reabrir o contato com leveza</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de reconexão <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi Maravilhosa! Como estão as coisas por aí? 💛
+
+Estava revisando meus acompanhamentos e lembrei de você.
+
+Como você está?</pre></div></div>
+          <div class="sw"><div class="slbl">Script de personalização (após ela responder) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Quando você iniciou comigo, seu objetivo era <em>[OBJETIVO DELA]</em>.
+
+Você ainda sente isso como prioridade?</pre></div></div>
+          <div class="dica">📌 <div>Mande de 20 a 30 dessas mensagens por dia. Comece pelas de vínculo mais forte.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f2d2"><div class="p-hdr" onclick="tP('f2d2')"><span class="pnum">DIA 2</span><span class="pttl">Validação da dor e oportunidade</span><span class="pobj">· Mostrar que você tem algo feito pra ela</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de oportunidade exclusiva <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, por você já ter sido minha paciente, eu tenho uma oportunidade exclusiva feita sob medida.
+
+Estou com uma nova forma de acompanhamento premium, e nessa semana estou com uma condição especial.
+
+Posso te explicar melhor como funciona? 🤍</pre></div></div>
+          <div class="ift">
+            <div class="ifb"><strong>Respondeu SIM</strong>Avança para o Dia 3 com o script de experiência.</div>
+            <div class="thb"><strong>Não respondeu</strong>Aguarda até o Dia 4 para o follow-up com e-book de presente.</div>
+          </div>
+        </div>
+      </div>
+      <div class="passo" id="f2d3"><div class="p-hdr" onclick="tP('f2d3')"><span class="pnum">DIA 3</span><span class="pttl">Apresentação do método</span><span class="pobj">· Criar desejo pela experiência, não pelo preço</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de experiência (áudio + texto) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, antes de falar sobre valores, quero te explicar como funciona meu acompanhamento. Porque você precisa saber o que vai viver logo no primeiro atendimento. 💛
+
+✔ Ficha pré-consulta e avaliação física antes da consulta
+✔ Linha do tempo alimentar e emocional, pra eu nunca repetir o que não funcionou
+✔ Análise física personalizada pro seu corpo real
+✔ Plano alimentar montado ao vivo, na hora, pra aplicar imediatamente
+✔ Suporte ativo durante todo o acompanhamento
+✔ Acesso à área de membros exclusiva
+
+Faz sentido pra você? 🤍</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f2d4"><div class="p-hdr" onclick="tP('f2d4')"><span class="pnum">DIA 4</span><span class="pttl">Prova social e e-book para quem parou</span><span class="pobj">· Reforçar confiança e reengajar</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Prova social (para quem está no fluxo) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Deixa eu te mostrar feedbacks de pacientes que voltaram comigo. 💛
+
+📎 <em>[2 antes/depois + 1 feedback emocionante]</em>
+
+Essa poderia ser você também. 🤍</pre></div></div>
+          <div class="sw"><div class="slbl">E-book presente (para quem sumiu) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, estou passando aqui para te presentear com um e-book que só minhas pacientes desse acompanhamento têm acesso, só uma amostra do que você vai receber.
+
+Se quiser, me manda EU QUERO. 🎁</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f2d5"><div class="p-hdr" onclick="tP('f2d5')"><span class="pnum">DIA 5</span><span class="pttl">Apresentação da oferta</span><span class="pobj">· Revelar o programa com exclusividade</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script da oferta <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Esse acompanhamento premium é focado exclusivamente em <em>[OBJETIVO DELA]</em>, por isso lembrei de você.
+
+São <em>[X consultas]</em>, <em>[X avaliações]</em>, <em>[X dias de suporte]</em> e, fechando essa semana, você recebe também:
+
+🎁 Comunidade das Maravilhosas
+🎁 Acesso à área de membros
+🎁 Kit especial na sua casa
+
+Faz sentido pra você, <em>[nome]</em>? 💛</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f2d6"><div class="p-hdr" onclick="tP('f2d6')"><span class="pnum">DIA 6</span><span class="pttl">Valores e fechamento</span><span class="pobj">· Converter com leveza e urgência suave</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de valores <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Perfeito, Maravilhosa! 💛
+
+Hoje esse acompanhamento custa R$2.500, mas como você já foi minha paciente ele sai por R$1.400 à vista, ou 12x de R$117.
+
+Você prefere adquirir pelo pix ou cartão de crédito? 💳</pre></div></div>
+          <div class="sw"><div class="slbl">Sinal (se hesitar) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Se quiser garantir sua vaga com um sinal de R$150 hoje, consigo manter essa condição por 48h pra você se organizar.
+
+Quer fazer assim? 🤍</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f2d7"><div class="p-hdr" onclick="tP('f2d7')"><span class="pnum">DIA 7</span><span class="pttl">Último dia e visão de futuro</span><span class="pobj">· Last call com emoção</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de urgência final <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi Maravilhosa, imagine você em <em>[mês daqui 3 meses]</em> com <em>[objetivo dela]</em> cumprido.
+
+Esse acompanhamento foca exatamente nisso e hoje é o último dia da condição especial.
+
+Depois de hoje, volta ao valor cheio.
+
+Me chama aqui se quiser garantir sua vaga. 💛</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F3 ══ -->
+<div class="funil" id="f3">
+  <div class="f-hdr" onclick="tF('f3')">
+    <span class="fbadge bm">Instagram → WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Grupo VIP (Lista de Espera)</div>
+      <div class="f-desc">Captação no Instagram, aquecimento e venda no WhatsApp. A estrutura mais poderosa para lançamentos.</div>
+      <div class="f-tags"><span class="ftag">Lançamento</span><span class="ftag">Aquecimento</span><span class="ftag">15 dias</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">15 dias</span><span class="fs-l">Duração</span></div><div><span class="fs-n">30–50%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="ck">
+      <div class="ck-t">✅ Antes de começar</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Criar grupo: "LISTA VIP DA NUTRI: Comece [período] do jeito certo"</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Separar: 10 provas sociais, 5 prints de suporte, 5 áudios de aula curta, 2 mini-PDFs</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Gravar 2 vídeos curtos com os scripts do Dia 1 e Dia 11</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Link de pagamento pronto</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Meta: 7 stories por dia com CTA e 20 respostas no direct por dia</div>
+    </div>
+    <div class="mets">
+      <div class="met"><div class="met-n">10–25%</div><div class="met-l">Do engajamento entra na lista</div></div>
+      <div class="met"><div class="met-n">30–50%</div><div class="met-l">Lista para venda</div></div>
+      <div class="met"><div class="met-n">R$2k–20k</div><div class="met-l">Meta de caixa</div></div>
+    </div>
+    <div class="fase">FASE 1 · INSTAGRAM (DIAS 1–4): LOTAR O GRUPO</div>
+    <div class="passos">
+      <div class="passo" id="f3d1"><div class="p-hdr" onclick="tP('f3d1')"><span class="pnum">DIA 1</span><span class="pttl">Anúncio oficial e Reels</span><span class="pobj">· Despertar atenção</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script para o Reels <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Abri oficialmente a LISTA VIP para mulheres que querem começar <em>[período]</em> do jeito certo.
+
+Quem entrar vai receber tudo antes: bônus, materiais e a condição especial da abertura.
+
+Comenta VIP ou me manda no direct VIP que te adiciono! 💛</pre></div></div>
+          <div class="sw"><div class="slbl">DM para quem comentou VIP <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa! Vou te colocar na Lista VIP agora. Me manda seu número de WhatsApp? 💛</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f3d24"><div class="p-hdr" onclick="tP('f3d24')"><span class="pnum">DIAS 2–4</span><span class="pttl">Gatilho da dor, prova social e urgência</span><span class="pobj">· Lotar o grupo</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Legenda do carrossel (Dia 2) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Os 5 sinais de que você PRECISA de acompanhamento nutricional antes de começar <em>[período]</em>.
+
+Se você se identificou com 2 ou mais, me manda VIP no direct. 💛</pre></div></div>
+          <div class="sw"><div class="slbl">Stories do último dia (Dia 4) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Últimas horas para entrar na Lista VIP.
+
+Amanhã o grupo abre e você já começa a receber os materiais.
+
+Manda VIP no direct agora. 💛</pre></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fase">FASE 2 · WHATSAPP (DIAS 5–12): AQUECIMENTO</div>
+    <div class="passos">
+      <div class="passo" id="f3d5"><div class="p-hdr" onclick="tP('f3d5')"><span class="pnum">DIA 5</span><span class="pttl">Abertura do grupo e boas-vindas</span><span class="pobj">· Criar pertencimento</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem de boas-vindas no grupo <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosas! 💛
+
+Vocês estão oficialmente na minha LISTA VIP, um grupo pequeno, priorizado e com foco total em vocês.
+
+Nos próximos dias vou trazer valor, direção, materiais e, no final, uma condição VIP que nunca libero fora daqui.
+
+Me contem: qual é o seu maior objetivo hoje? 👇</pre></div></div>
+          <div class="dica">🎙️ <div>Grave um áudio de boas-vindas. Responda cada uma individualmente no privado para criar conexão individual.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f3d612"><div class="p-hdr" onclick="tP('f3d612')"><span class="pnum">DIAS 6–12</span><span class="pttl">Sequência de aquecimento</span><span class="pobj">· Nutrir, conectar e criar desejo</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Dia 6: pergunta de conexão profunda <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Quero conhecer vocês mais de perto.
+
+Qual foi o momento em que você percebeu que precisava de ajuda com a nutrição? 💛</pre></div></div>
+          <div class="dica">📌 <div>Leia todas as respostas. Anote as dores individuais: você vai usar no fechamento para personalizar cada abordagem no privado.</div></div>
+          <div class="sw"><div class="slbl">Dia 7: entrega de valor <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Presente pra vocês 🎁
+
+Check-list: Comece Antes de <em>[período]</em> Virar.
+
+Querem que eu solte? 👇</pre></div></div>
+          <div class="sw"><div class="slbl">Dia 12: spoiler da oferta (SEM preço) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosas, muita gente me perguntou sobre o acompanhamento.
+
+Amanhã abro os detalhes. Mas hoje quero mostrar o que tem dentro da experiência:
+
+✔ Consulta personalizada
+✔ Linha do tempo alimentar e emocional
+✔ Dieta montada ao vivo
+✔ Suporte ativo
+✔ Área de membros exclusiva</pre></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fase">FASE 3 · OFERTA (DIAS 13–15): ABERTURA E FECHAMENTO</div>
+    <div class="passos">
+      <div class="passo" id="f3d14"><div class="p-hdr" onclick="tP('f3d14')"><span class="pnum">DIA 14</span><span class="pttl">Abertura oficial com vagas e preço</span><span class="pobj">· Converter com condição VIP</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem de abertura no grupo <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>ABRI OFICIALMENTE AS VAGAS 💛✨
+
+Vocês, da Lista VIP, têm acesso antecipado e condição especial:
+
+💛 R$<em>[X]</em> à vista
+ou
+💛 12x de R$<em>[X]</em>
+
+Bônus exclusivos da VIP:
+🎁 <em>[Bônus 1]</em>
+🎁 <em>[Bônus 2]</em>
+🎁 <em>[Bônus 3]</em>
+
+Para receber o link, me manda no PRIVADO: QUERO COMEÇAR 💛</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f3d15"><div class="p-hdr" onclick="tP('f3d15')"><span class="pnum">DIA 15</span><span class="pttl">Fechamento do grupo</span><span class="pobj">· Last call com urgência real</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem de encerramento <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Último dia pra garantir a condição da Lista VIP. 💛
+
+Depois de hoje, volta ao valor normal.
+
+Se você quer começar <em>[período]</em> com leveza, clareza e direção, me chama no privado agora:
+
+QUERO COMEÇAR 💛✨</pre></div></div>
+          <div class="dica">🔒 <div>Encerre o grupo às 23h59. Agradeça a todas. Deixe a porta aberta com elegância.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F4 ══ -->
+<div class="funil" id="f4">
+  <div class="f-hdr" onclick="tF('f4')">
+    <span class="fbadge bi">Social Selling</span>
+    <div class="f-meta">
+      <div class="f-ttl">Social Selling no Instagram</div>
+      <div class="f-desc">Transformar engajamento orgânico em conversa. Quem curtiu, comentou ou respondeu stories é um lead.</div>
+      <div class="f-tags"><span class="ftag">Captação orgânica</span><span class="ftag">Relacionamento</span><span class="ftag">Diário</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">Diário</span><span class="fs-l">Cadência</span></div><div><span class="fs-n">15–25%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>O que é social selling:</strong> usar o Instagram para construir relacionamentos reais antes de vender. Você entrega valor, constrói autoridade e converte quem já confia. Não é spam, é conexão estratégica.</div></div>
+    <div class="ck">
+      <div class="ck-t">✅ Rotina diária de social selling</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Verificar quem curtiu os últimos 3 posts e visitar o perfil de cada uma</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Verificar quem respondeu stories e iniciar conversa genuína</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Comentar com profundidade em perfis do nicho (não comente "lindo!")</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Enviar DM para quem fez pergunta na caixinha ou comentou em posts de dor</div>
+      <div class="ci" onclick="tC(this)"><div class="cbox"></div>Meta: 20 interações significativas por dia</div>
+    </div>
+    <div class="passos">
+      <div class="passo" id="f4p1"><div class="p-hdr" onclick="tP('f4p1')"><span class="pnum">PASSO 1</span><span class="pttl">Abordar quem engajou</span><span class="pobj">· Iniciar conversa que não parece venda</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">DM para quem respondeu story sobre dor <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vi que você respondeu meu story sobre <em>[tema]</em>. 💛
+
+Fiquei curiosa com o que você disse. Me conta um pouco mais sobre o que está passando com isso?</pre></div></div>
+          <div class="sw"><div class="slbl">DM para quem curtiu post de dor <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vi que você curtiu meu post sobre <em>[tema]</em>. 💛
+
+Você está buscando alguma solução pra isso agora?
+
+Pergunto porque trabalho exatamente com isso e fico feliz em ajudar quando faz sentido.</pre></div></div>
+          <div class="sw"><div class="slbl">DM para quem perguntou na caixinha <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vi sua pergunta e queria te responder de forma mais completa por aqui. 💛
+
+Me conta um pouco mais sobre o seu caso?</pre></div></div>
+          <div class="ift">
+            <div class="ifb"><strong>Demonstrou interesse</strong>Peça o WhatsApp imediatamente.</div>
+            <div class="thb"><strong>Respondeu vagamente</strong>Faça 1 pergunta aprofundada. Não abandone sem tentar mais uma vez.</div>
+          </div>
+        </div>
+      </div>
+      <div class="passo" id="f4p2"><div class="p-hdr" onclick="tP('f4p2')"><span class="pnum">PASSO 2</span><span class="pttl">Primeiro contato no WhatsApp</span><span class="pobj">· Criar conexão real e entender a dor</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Abertura no WhatsApp <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Sou <em>[seu nome]</em>, nutricionista. Que bom te ter aqui! 💛
+
+Me conta: o que te levou a se interessar por <em>[nutrição, emagrecimento, saúde hormonal]</em>? O que está te impedindo de chegar onde você quer?</pre></div></div>
+          <div class="dica">👂 <div>Ouça com atenção. O que ela disser aqui é o argumento de venda que você usa no fechamento. Não interrompa com sua solução ainda.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f4p3"><div class="p-hdr" onclick="tP('f4p3')"><span class="pnum">PASSO 3</span><span class="pttl">Stories de autoridade (aquecimento passivo)</span><span class="pobj">· Deixar o Instagram trabalhar por você</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Sequência de 7 stories (poste em ordem) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Story 1 (HUMANIZAÇÃO): Bastidores do seu dia, rotina pessoal, algo que te torna próxima e real.
+
+Story 2 (EDUCAÇÃO): Uma dica rápida e prática. "Você sabia que [fato surpreendente sobre nutrição]?"
+
+Story 3 (DOR): Fale sobre a dor da sua paciente ideal. "Você sente [sintoma]? Isso acontece porque [causa]."
+
+Story 4 (RESULTADO): Print ou foto de resultado de paciente. "Ela chegou com [dor] e depois de [tempo], olha o que aconteceu."
+
+Story 5 (AUTORIDADE): Backstage de um atendimento, formação, certificação ou material de estudo.
+
+Story 6 (PROVA SOCIAL): Feedback real de paciente por escrito ou áudio, com autorização.
+
+Story 7 (CTA): "Se você se identificou com algum dos stories de hoje, me manda aqui no direct. Tenho disponibilidade essa semana. 💛"</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f4p4"><div class="p-hdr" onclick="tP('f4p4')"><span class="pnum">PASSO 4</span><span class="pttl">Quando ela responde o story</span><span class="pobj">· Converter engajamento em conversa de venda</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Resposta ao story <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Que bom que você se identificou, <em>[nome]</em>! 💛
+
+Me conta um pouco mais sobre o que está passando?</pre></div></div>
+          <div class="sw"><div class="slbl">Transição para WhatsApp <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Adorei conversar aqui! Aqui no direct fica difícil de continuar direito.
+
+Me passa seu WhatsApp que consigo te ajudar muito melhor por lá. 🤍</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F5 ══ -->
+<div class="funil" id="f5">
+  <div class="f-hdr" onclick="tF('f5')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Prospecção Fria</div>
+      <div class="f-desc">Para quem nunca conversou com você mas interage no Instagram. Abordagem que não parece venda.</div>
+      <div class="f-tags"><span class="ftag">Captação nova</span><span class="ftag">Instagram → WhatsApp</span><span class="ftag">5 dias</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">5 dias</span><span class="fs-l">Duração</span></div><div><span class="fs-n">10–20%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>Quem prospectar:</strong> quem curtiu posts, respondeu stories ou está na lista de seguidores engajados. Nunca aborde alguém que nunca interagiu com você.</div></div>
+    <div class="passos">
+      <div class="passo" id="f5p1"><div class="p-hdr" onclick="tP('f5p1')"><span class="pnum">DIA 1</span><span class="pttl">Abordagem pelo DM do Instagram</span><span class="pobj">· Iniciar conversa genuína</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">DM de abordagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vi que você curtiu meu post sobre <em>[tema]</em> e fiquei curiosa.
+
+Você está buscando algo nessa área agora?
+
+Pergunto porque trabalho justamente com isso e fico feliz em ajudar quando faz sentido. 💛</pre></div></div>
+          <div class="ift">
+            <div class="ifb"><strong>Respondeu SIM ou com interesse</strong>Peça o WhatsApp: "Me passa seu número que fica mais fácil de explicar por lá."</div>
+            <div class="thb"><strong>Respondeu "não agora" ou vagamente</strong>Agradeça, deixe a porta aberta, não insista.</div>
+          </div>
+        </div>
+      </div>
+      <div class="passo" id="f5p2"><div class="p-hdr" onclick="tP('f5p2')"><span class="pnum">DIA 2</span><span class="pttl">Primeiro contato no WhatsApp</span><span class="pobj">· Criar conexão e entender a dor</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Abertura no WhatsApp <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Sou <em>[seu nome]</em>, nutricionista. Que bom te ter aqui! 💛
+
+Me conta: o que te fez se interessar pelo tema de <em>[nutrição, emagrecimento, saúde]</em>? O que está te impedindo de chegar onde você quer?</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f5p35"><div class="p-hdr" onclick="tP('f5p35')"><span class="pnum">DIAS 3–5</span><span class="pttl">Follow-up se não agendou</span><span class="pobj">· Manter contato sem pressionar</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Follow-up 1 (48h após silêncio) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Passando pra ver se você conseguiu pensar na consultoria.
+
+Tenho horários essa semana ainda. Quer aproveitar? 💛</pre></div></div>
+          <div class="sw"><div class="slbl">Follow-up 2 (5 dias após silêncio) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vim dar um alô.
+
+Sei que a vida é corrida. Quando você estiver pronta pra mudar de verdade, estarei aqui. 💛</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F6 ══ -->
+<div class="funil" id="f6">
+  <div class="f-hdr" onclick="tF('f6')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Sprint de Caixa Rápido</div>
+      <div class="f-desc">Quando você precisa de resultado agora. Prospecção intensa com condição por tempo limitado.</div>
+      <div class="f-tags"><span class="ftag">Urgência real</span><span class="ftag">Lista quente</span><span class="ftag">2–7 dias</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">2–7 dias</span><span class="fs-l">Duração</span></div><div><span class="fs-n">15–35%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>Quando usar:</strong> mês fraco, meta não atingida, necessidade de caixa rápido. A condição especial PRECISA ser real. Urgência falsa queima sua autoridade para sempre.</div></div>
+    <div class="passos">
+      <div class="passo" id="f6p1"><div class="p-hdr" onclick="tP('f6p1')"><span class="pnum">DIA 1</span><span class="pttl">Abertura em massa</span><span class="pobj">· Ativar toda a lista quente simultaneamente</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de abertura do sprint <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Tudo bem? 💛
+
+Vim te avisar de uma condição especial que abri essa semana para um grupo pequeno de mulheres.
+
+Você está no meu radar porque <em>[motivo personalizado]</em>.
+
+Posso te explicar rapidinho como funciona?</pre></div></div>
+          <div class="dica">⚡ <div>Personalize ao máximo. Mesmo que sejam 30 mensagens, mude o nome e o motivo. Mensagem genérica tem taxa de resposta muito mais baixa.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f6p2"><div class="p-hdr" onclick="tP('f6p2')"><span class="pnum">DIA 2</span><span class="pttl">Apresentação da condição especial</span><span class="pobj">· Revelar a oferta com urgência real</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script da oferta <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, essa semana estou com uma condição especial no meu acompanhamento:
+
+💛 R$<em>[valor especial]</em> à vista (normalmente R$<em>[valor cheio]</em>)
+ou 12x de R$<em>[parcela]</em>
+
+Bônus exclusivo de quem fechar até <em>[data]</em>:
+🎁 <em>[Bônus específico e real]</em>
+
+Depois dessa data, volta ao valor normal sem exceção.
+
+Faz sentido pra você agora? 💛</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f6p37"><div class="p-hdr" onclick="tP('f6p37')"><span class="pnum">DIAS 3–7</span><span class="pttl">Follow-up diário até o fechamento</span><span class="pobj">· Não sumir até o prazo encerrar</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Prova social <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, só passando pra mostrar o resultado de uma paciente que iniciou comigo recentemente. 💛
+
+📎 <em>[1 prova social forte]</em>
+
+Isso é o que quero pra você também. A condição especial vai até <em>[data]</em>. 🤍</pre></div></div>
+          <div class="sw"><div class="slbl">Urgência do prazo <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, amanhã encerra a condição especial.
+
+Se quiser garantir hoje com um sinal de R$150, bloqueio sua vaga e você paga o restante até <em>[data]</em>.
+
+Quer assim? 💛</pre></div></div>
+          <div class="sw"><div class="slbl">Last call definitivo <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, hoje é o último dia.
+
+Às 23h59 a condição encerra de verdade.
+
+Me fala: tem alguma dúvida que eu possa tirar agora pra facilitar sua decisão? 💛</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F7 ══ -->
+<div class="funil" id="f7">
+  <div class="f-hdr" onclick="tF('f7')">
+    <span class="fbadge bm">Stories + WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Funil de Conteúdo que Vende</div>
+      <div class="f-desc">Carrosseis e Reels que geram leads direto no Instagram. Cada post é uma porta de entrada para o WhatsApp.</div>
+      <div class="f-tags"><span class="ftag">Social selling avançado</span><span class="ftag">Carrossel</span><span class="ftag">Reels</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">Semanal</span><span class="fs-l">Cadência</span></div><div><span class="fs-n">Escalável</span><span class="fs-l">Resultado</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>A diferença:</strong> a maioria posta para informar. Você vai postar para vender. Cada conteúdo tem um CTA que leva para o WhatsApp. Conteúdo que não converte não serve para o negócio.</div></div>
+    <div class="passos">
+      <div class="passo" id="f7c1"><div class="p-hdr" onclick="tP('f7c1')"><span class="pnum">FORMATO 1</span><span class="pttl">Carrossel de dor e solução</span><span class="pobj">· O formato que mais gera DMs</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Estrutura do carrossel de alta conversão <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Slide 1 (GANCHO): "5 sinais de que seu corpo está pedindo ajuda da nutrição" ou "Por que você não consegue emagrecer mesmo comendo pouco"
+
+Slides 2 a 5 (CONTEÚDO): Um sinal ou motivo por slide. Educativo, sem ser técnico demais.
+
+Slide 6 (VIRADA): "O problema não é você. É o método que você está usando."
+
+Slide 7 (SOLUÇÃO): "Com o acompanhamento certo, você pode [resultado esperado] em [prazo]."
+
+Slide 8 (PROVA SOCIAL): Print de resultado de paciente ou depoimento.
+
+Slide 9 (CTA): "Se você se identificou com algum desses sinais, me manda uma mensagem AGORA. Me conta o que está passando. 💛"</pre></div></div>
+          <div class="sw"><div class="slbl">Legenda do carrossel <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Você pode estar sofrendo com isso há anos sem saber que existe uma saída. 💛
+
+Desliza para ver os 5 sinais que ninguém te contou.
+
+E se você se identificou com algum, me manda uma mensagem. Tenho algo feito pra você.</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f7r1"><div class="p-hdr" onclick="tP('f7r1')"><span class="pnum">FORMATO 2</span><span class="pttl">Reels de autoridade e resultado</span><span class="pobj">· O formato que aquece mais rápido</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de Reels de 30 a 60 segundos <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>GANCHO (primeiros 3 segundos): "Eu vou te contar o motivo pelo qual você não consegue [objetivo] e ninguém nunca te disse isso."
+
+DESENVOLVIMENTO (20 segundos): Explique o problema de forma simples e direta. Seja específica.
+
+VIRADA (10 segundos): "Quando eu entendi isso, comecei a ajudar minhas pacientes a [resultado] em [prazo]."
+
+CTA FINAL (5 segundos): "Me manda uma mensagem se você quer entender como funciona pra você. 💛"</pre></div></div>
+          <div class="dica">🎬 <div>Poste no mínimo 3 Reels por semana com esse formato. O algoritmo distribui. Você fecha no WhatsApp.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f7r2"><div class="p-hdr" onclick="tP('f7r2')"><span class="pnum">RESPOSTA</span><span class="pttl">Quando ela responde o CTA do post</span><span class="pobj">· Do comentário ao WhatsApp</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Resposta para quem comentou <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Que bom que você comentou aqui. 💛
+
+Me manda uma mensagem no direct que te explico melhor como funciona pro seu caso específico.</pre></div></div>
+          <div class="sw"><div class="slbl">Abertura no direct após comentário <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vi seu comentário e fiquei curiosa com o seu caso. 💛
+
+Me conta: o que está te impedindo de chegar onde você quer com a nutrição?</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F8 ══ -->
+<div class="funil" id="f8">
+  <div class="f-hdr" onclick="tF('f8')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Funil de Indicação (Boca a Boca Estratégico)</div>
+      <div class="f-desc">Transformar pacientes satisfeitas em vendedoras voluntárias. A fonte de lead mais quente que existe.</div>
+      <div class="f-tags"><span class="ftag">Indicação</span><span class="ftag">Alta conversão</span><span class="ftag">Custo zero</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">Contínuo</span><span class="fs-l">Cadência</span></div><div><span class="fs-n">50–70%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>Por que funciona:</strong> lead por indicação já chega com confiança pré-construída. A taxa de conversão é a mais alta de todos os funis. E o custo de aquisição é zero.</div></div>
+    <div class="passos">
+      <div class="passo" id="f8p1"><div class="p-hdr" onclick="tP('f8p1')"><span class="pnum">PASSO 1</span><span class="pttl">Pedir indicação no momento certo</span><span class="pobj">· Quando a paciente tem um resultado</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de pedido de indicação <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, fico muito feliz com o resultado que você está tendo! 💛
+
+Me conta: você tem alguma amiga, familiar ou colega que também está buscando esse tipo de resultado?
+
+Se você me indicar e ela fechar, eu te ofereço <em>[bônus: consulta extra, desconto na renovação, kit]</em> como agradecimento. 🎁</pre></div></div>
+          <div class="dica">💡 <div>Ofereça um benefício real para a indicação. Isso aumenta em até 3x a taxa de indicação espontânea.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f8p2"><div class="p-hdr" onclick="tP('f8p2')"><span class="pnum">PASSO 2</span><span class="pttl">Receber o lead indicado</span><span class="pobj">· Ativar a confiança pré-construída</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Abertura com lead indicado <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Que alegria! 💛
+
+<em>[Nome da paciente]</em> me falou de você com muito carinho.
+
+Me conta: qual é o seu maior objetivo com a nutrição hoje?</pre></div></div>
+          <div class="dica">🎯 <div>Com lead indicado, você pode ir mais rápido para a apresentação do método. A confiança já foi transferida pela paciente que indicou.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f8p3"><div class="p-hdr" onclick="tP('f8p3')"><span class="pnum">PASSO 3</span><span class="pttl">Programa de embaixadoras</span><span class="pobj">· Transformar pacientes em promotoras contínuas</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Convite para ser embaixadora <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, você é uma das minhas pacientes que mais me inspira. 💛
+
+Criei um programa especial de Embaixadoras onde, a cada indicação que fechar:
+
+✔ Você ganha <em>[bônus por indicação]</em>
+✔ Sua amiga ganha <em>[desconto ou bônus de entrada]</em>
+
+Quer fazer parte?</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F9 ══ -->
+<div class="funil" id="f9">
+  <div class="f-hdr" onclick="tF('f9')">
+    <span class="fbadge bm">Instagram → WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Antecipação e Pré-venda</div>
+      <div class="f-desc">Gerar caixa antes da abertura oficial vendendo acesso antecipado com condição exclusiva.</div>
+      <div class="f-tags"><span class="ftag">Pré-venda</span><span class="ftag">Lista de interesse</span><span class="ftag">7 dias</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">7 dias</span><span class="fs-l">Duração</span></div><div><span class="fs-n">25–45%</span><span class="fs-l">Conversão</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>A lógica:</strong> a antecipação funciona porque mistura sensação de renovação, desejo de começar de novo, oportunidade de garantir antes e o efeito psicológico de "já estou cuidando de mim".</div></div>
+    <div class="passos">
+      <div class="passo" id="f9p1"><div class="p-hdr" onclick="tP('f9p1')"><span class="pnum">DIA 1</span><span class="pttl">Abertura da campanha</span><span class="pobj">· Despertar atenção e curiosidade</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem de abertura (WhatsApp e DM) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, maravilhosa!
+
+Passei pra te avisar que abri as vagas para começar o acompanhamento comigo em <em>[data de início]</em>.
+
+Mas quem garante agora já recebe suporte imediato mais bônus exclusivos desse mês.
+
+Posso te explicar como funciona?</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f9p2"><div class="p-hdr" onclick="tP('f9p2')"><span class="pnum">DIA 2</span><span class="pttl">Storytelling e visão de futuro</span><span class="pobj">· Mostrar que esperar não funciona</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de storytelling <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Deixa eu te contar uma coisa:
+
+A maioria das mulheres tenta começar tudo do zero em <em>[período]</em> e desiste em 10 dias.
+
+Não por falta de força, mas por falta de PREPARO.
+
+Por isso, quem garante agora entra com clareza, rotina organizada e planejamento pronto.
+
+Você quer começar com tudo no lugar?</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f9p3"><div class="p-hdr" onclick="tP('f9p3')"><span class="pnum">DIA 3</span><span class="pttl">Explicação do que a pessoa recebe</span><span class="pobj">· Apresentar estrutura e benefícios</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Script de como funciona <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Funciona assim, maravilhosa:
+
+✔ Você garante agora
+✔ Entra no suporte imediato
+✔ Recebe controle de danos para esse mês
+✔ Recebe checklist pré-consulta
+✔ Recebe mini protocolo de preparação
+✔ E sua jornada oficial começa em <em>[data de início]</em>
+
+Você começa leve, pronta e organizada.</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f9p56"><div class="p-hdr" onclick="tP('f9p56')"><span class="pnum">DIAS 5–7</span><span class="pttl">Prova social, oferta e fechamento</span><span class="pobj">· Revelar o programa e converter</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Oferta com condição especial de antecipação <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, o acompanhamento está com condição especial de pré-lançamento.
+
+Ele sai por R$<em>[X]</em> à vista ou 12x de R$<em>[X]</em>.
+
+E quem garante agora ainda recebe:
+🎁 Controle de Danos desse mês
+🎁 Mini Protocolo de Preparação
+🎁 Suporte imediato
+🎁 Checklist pré-consulta
+
+Você prefere PIX ou cartão? 💳</pre></div></div>
+          <div class="sw"><div class="slbl">Urgência final (Dia 7) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Maravilhosa, hoje é o último dia da condição de pré-lançamento.
+
+Amanhã o valor sobe para o preço cheio.
+
+Me chama agora se quiser garantir. 💛</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ F10 ══ -->
+<div class="funil" id="f10">
+  <div class="f-hdr" onclick="tF('f10')">
+    <span class="fbadge bs">Sessão Diagnóstica</span>
+    <div class="f-meta">
+      <div class="f-ttl">Sessão Diagnóstica com Formulário Qualificador</div>
+      <div class="f-desc">O lead preenche um formulário, você analisa, convida os qualificados para um 1:1 e fecha na call.</div>
+      <div class="f-tags"><span class="ftag">Alta qualificação</span><span class="ftag">High ticket</span><span class="ftag">1:1</span></div>
+    </div>
+    <div class="f-stats"><div><span class="fs-n">5–7 dias</span><span class="fs-l">Ciclo</span></div><div><span class="fs-n">40–70%</span><span class="fs-l">Conversão na call</span></div></div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">🧠 <div><strong>Para quem é:</strong> nutris que atendem com ticket acima de R$1.500 e querem chegar na call com um lead já qualificado e interessado. A sessão elimina curiosos e atrai quem está pronta para investir.</div></div>
+
+    <div class="fase">ETAPA 1 · FORMULÁRIO DE QUALIFICAÇÃO</div>
+    <div class="dica">📝 <div>Divulgue o formulário nos stories com CTA direto: "Preencha o formulário abaixo para solicitar uma Sessão Diagnóstica gratuita comigo. São poucas vagas."</div></div>
+    <div class="form-box">
+      <div class="form-ttl">📋 Formulário de Pré-Sessão Diagnóstica</div>
+      <div class="fq"><div class="fq-n">1.</div><div class="fq-txt">Qual é o seu nome completo e onde você mora? <em>Pergunta de contexto e localização.</em></div></div>
+      <div class="fq"><div class="fq-n">2.</div><div class="fq-txt">Qual é o seu maior desafio com alimentação ou saúde hoje? <em>Conte com suas próprias palavras, sem julgamentos.</em></div></div>
+      <div class="fq"><div class="fq-n">3.</div><div class="fq-txt">Há quanto tempo você convive com esse desafio? <em>Menos de 6 meses, de 6 meses a 2 anos ou mais de 2 anos.</em></div></div>
+      <div class="fq"><div class="fq-n">4.</div><div class="fq-txt">O que você já tentou para resolver isso? <em>Descreva tudo: dietas, outros nutricionistas, aplicativos, medicamentos.</em></div></div>
+      <div class="fq"><div class="fq-n">5.</div><div class="fq-txt">Por que esses recursos não funcionaram como você esperava? <em>Seja honesta. Essa informação é fundamental para que eu possa te ajudar de verdade.</em></div></div>
+      <div class="fq"><div class="fq-n">6.</div><div class="fq-txt">Se você resolvesse isso nos próximos 90 dias, como seria sua vida diferente? <em>Descreva com detalhes: energia, autoestima, relacionamentos, trabalho.</em></div></div>
+      <div class="fq"><div class="fq-n">7.</div><div class="fq-txt">De 0 a 10, qual é o nível de prioridade de resolver isso agora? <em>0 é "não é urgente" e 10 é "preciso resolver isso já".</em></div></div>
+      <div class="fq"><div class="fq-n">8.</div><div class="fq-txt">Você está aberta a investir em si mesma para resolver isso? <em>Sim, se o programa fizer sentido. Ainda não tenho certeza. Ainda não estou no momento certo financeiramente.</em></div></div>
+      <div class="fq"><div class="fq-n">9.</div><div class="fq-txt">Como você ficou sabendo sobre mim? <em>Instagram, indicação de amiga, Google, outros.</em></div></div>
+      <div class="fq"><div class="fq-n">10.</div><div class="fq-txt">Qual é o seu WhatsApp? <em>Para que eu possa entrar em contato e, se você for selecionada, agendar sua sessão.</em></div></div>
+    </div>
+    <div class="dica">🎯 <div><strong>Quem convidar:</strong> quem respondeu 7 ou mais na pergunta de prioridade e marcou "Sim, se o programa fizer sentido" na pergunta 8. Esses são seus leads mais quentes.</div></div>
+
+    <div class="fase">ETAPA 2 · SLIDE DA SESSÃO (CANVA)</div>
+    <a class="canva-btn" href="https://www.canva.com/design/DAHCppWsJF0/nUtrHWie03pz0LtZDuERKw/view?utm_content=DAHCppWsJF0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">
+      <span style="font-size:20px">🎨</span>
+      <div><div class="canva-btn-t">Slide pronto para duplicar no Canva</div><div class="canva-btn-s">Clique para abrir, depois clique em "Usar template" para duplicar e personalizar.</div></div>
+      <span class="canva-btn-arr">›</span>
+    </a>
+
+    <div class="fase">ETAPA 3 · CONVITE PARA OS LEADS QUALIFICADOS</div>
+    <div class="passos">
+      <div class="passo" id="f10c"><div class="p-hdr" onclick="tP('f10c')"><span class="pnum">CONVITE</span><span class="pttl">Script de convite para a sessão diagnóstica</span><span class="pobj">· Criar exclusividade antes da call</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem de convite pelo WhatsApp <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Sou <em>[seu nome]</em>, nutricionista. 💛
+
+Li com atenção o que você compartilhou no formulário e me identifiquei muito com o que você descreveu sobre <em>[dor específica que ela mencionou]</em>.
+
+Selecionei você para uma Sessão Diagnóstica gratuita de 30 minutos, onde vou entender profundamente o seu caso e te mostrar um caminho concreto.
+
+São poucas vagas e você é uma das escolhidas.
+
+Quando você tem disponibilidade essa semana ou na próxima?</pre></div></div>
+          <div class="dica">⭐ <div>Use exatamente a dor que ela descreveu no formulário. Isso prova que você leu com atenção e cria conexão imediata.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="f10call"><div class="p-hdr" onclick="tP('f10call')"><span class="pnum">A CALL</span><span class="pttl">Perguntas estratégicas durante o 1:1</span><span class="pobj">· Da conversa ao fechamento</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="dica">📞 <div>A sessão tem três fases: <strong>escuta ativa</strong> (15 min), <strong>diagnóstico</strong> (10 min) e <strong>oferta</strong> (5 min). Não saia dessa ordem.</div></div>
+          <div class="sw"><div class="slbl">Perguntas estratégicas da fase de escuta <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>1. "Me conta com suas palavras: o que está acontecendo com você hoje?"
+
+2. "Há quanto tempo você vive com isso? Como isso afeta sua vida no dia a dia?"
+
+3. "O que você já tentou antes? O que funcionou e o que não funcionou?"
+
+4. "Se isso não mudar, como você imagina sua vida daqui a 1 ano?"
+
+5. "Se você chegasse onde quer em 90 dias, o que isso significaria pra você na prática?"
+
+6. "Numa escala de 0 a 10, o quanto isso está afetando você agora?"
+
+7. "O que te impede de já ter resolvido isso?"</pre></div></div>
+          <div class="sw"><div class="slbl">Transição para a oferta <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre><em>[Nome]</em>, com base em tudo que você me contou, ficou claro para mim que o problema central é <em>[diagnóstico]</em>.
+
+Isso é exatamente o que meu acompanhamento resolve. Eu tenho um programa focado em <em>[objetivo dela]</em> que funciona porque <em>[diferencial do seu método]</em>.
+
+Antes de te falar como funciona, você tem alguma dúvida sobre o que conversamos até aqui?</pre></div></div>
+          <div class="sw"><div class="slbl">Fechamento na call <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>O acompanhamento custa R$<em>[valor]</em>.
+
+Para quem fecha nessa semana, o investimento é de R$<em>[valor especial]</em> à vista ou 12x de R$<em>[parcela]</em>.
+
+Você prefere pix ou cartão de crédito? 💳</pre></div></div>
+        </div>
+      </div>
+      <div class="passo" id="f10pos"><div class="p-hdr" onclick="tP('f10pos')"><span class="pnum">PÓS-CALL</span><span class="pttl">Follow-up após a sessão diagnóstica</span><span class="pobj">· Para quem não fechou na call</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem pós-call (até 2h depois) <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre><em>[Nome]</em>, foi muito bom conversar com você hoje. 💛
+
+Você me contou sobre <em>[dor específica]</em> e isso ficou na minha cabeça.
+
+Caso você decida avançar, a condição especial que conversamos fica disponível até <em>[prazo de 48h]</em>.
+
+Se tiver qualquer dúvida, me chama aqui. 🤍</pre></div></div>
+          <div class="sw"><div class="slbl">Follow-up 48h depois <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre><em>[Nome]</em>, passando para saber se surgiu alguma dúvida depois da nossa conversa. 💛
+
+Ainda tenho a vaga disponível pra você até amanhã.
+
+Me fala: o que ficou travando na decisão?</pre></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOLLOW-UP COMPLETO -->
+<div class="s-head"><span class="s-n">02</span><h2 class="s-ttl">Do <em>"vou pensar"</em> até comprar ou bloquear</h2><div class="s-line"></div></div>
+
+<div class="funil" id="ffu">
+  <div class="f-hdr" onclick="tF('ffu')">
+    <span class="fbadge bw">WhatsApp</span>
+    <div class="f-meta">
+      <div class="f-ttl">Cadência completa de follow-up</div>
+      <div class="f-desc">7 mensagens diárias estratégicas + 6 contatos semanais estratégicos + conteúdo permanente semanal até comprar ou bloquear.</div>
+    </div>
+    <span class="fchv">▾</span>
+  </div>
+  <div class="fbody">
+    <div class="dica">📊 <div><strong>A regra de ouro:</strong> 80% das vendas acontecem a partir do 5º contato. A nutri que some perde a venda. A nutri que incomoda perde a relação. O segredo é cadência com valor em cada contato.</div></div>
+
+    <div class="fase">FASE 1 · 7 MENSAGENS DIÁRIAS ESTRATÉGICAS (DIAS 1 A 7)</div>
+    <div class="dica">💡 <div>Uma mensagem estratégica por dia. Cada uma tem uma função específica: entregar valor, criar conexão, apresentar prova social ou gerar urgência.</div></div>
+    <div class="passos">
+      <div class="passo" id="ud1"><div class="p-hdr" onclick="tP('ud1')"><span class="pnum">DIA 1</span><span class="pttl">Presente de valor</span><span class="pobj">· Reengajar sem cobrar</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre>Oi, <em>[nome]</em>! Estava pensando em você. 💛
+
+Vim te presentear com um material que só minhas pacientes têm acesso, uma amostra do que você vai receber.
+
+Se quiser, me manda EU QUERO. 🎁</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud2"><div class="p-hdr" onclick="tP('ud2')"><span class="pnum">DIA 2</span><span class="pttl">Pós-presente e tirar dúvida</span><span class="pobj">· Aproveitar o engajamento</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, me conta o que você achou do material? 💛
+
+Ficou com alguma dúvida sobre como funciona o acompanhamento?</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud3"><div class="p-hdr" onclick="tP('ud3')"><span class="pnum">DIA 3</span><span class="pttl">Prova social personalizada</span><span class="pobj">· Resultado parecido com o perfil dela</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, lembrei de você quando vi o resultado dessa paciente. 💛
+
+Ela tinha o mesmo objetivo que você: <em>[objetivo dela]</em>.
+
+📎 <em>[1 prova social forte e parecida com o perfil dela]</em>
+
+Isso é o que pode acontecer quando você começa. 🤍</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud4"><div class="p-hdr" onclick="tP('ud4')"><span class="pnum">DIA 4</span><span class="pttl">Visão de futuro</span><span class="pobj">· Ativar o desejo pelo resultado</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre>Oi, <em>[nome]</em>! Imagine você em <em>[mês daqui 3 meses]</em> com <em>[objetivo dela]</em> cumprido. 💛
+
+Com energia, leveza e sem precisar ficar pensando em dieta o dia inteiro.
+
+Meu acompanhamento foca exatamente nisso. Ainda tenho uma vaga disponível pra você. 🤍</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud5"><div class="p-hdr" onclick="tP('ud5')"><span class="pnum">DIA 5</span><span class="pttl">Pergunta sobre a objeção</span><span class="pobj">· Identificar o que está travando</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre>Oi, <em>[nome]</em>! Preciso te perguntar uma coisa. 💛
+
+O que está te impedindo de avançar?
+
+Às vezes é uma dúvida simples que eu consigo resolver em segundos. Me conta.</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud6"><div class="p-hdr" onclick="tP('ud6')"><span class="pnum">DIA 6</span><span class="pttl">Urgência com prazo real</span><span class="pobj">· Gatilho de escassez sem mentir</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, minha agenda fecha na <em>[dia da semana]</em> para novas pacientes.
+
+Depois disso, a próxima vaga só em <em>[mês seguinte]</em>.
+
+Consigo segurar a sua até amanhã com um sinal de R$150. Quer assim? 💛</pre></div></div></div>
+      </div>
+      <div class="passo" id="ud7"><div class="p-hdr" onclick="tP('ud7')"><span class="pnum">DIA 7</span><span class="pttl">Sinal e last call da semana</span><span class="pobj">· Última tentativa ativa da Fase 1</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, esse é meu último contato ativo por essa semana. 💛
+
+Se quiser garantir sua vaga com um sinal de R$150 hoje, mantenho as condições por mais 48h.
+
+Depois disso, vou abrir para outras interessadas. 🤍</pre></div></div></div>
+      </div>
+    </div>
+
+    <div class="fase">FASE 2 · 6 CONTATOS SEMANAIS ESTRATÉGICOS (SEMANAS 2 A 7)</div>
+    <div class="dica">💡 <div>Um contato por semana. Cada um entrega valor genuíno. O objetivo não é cobrar, é manter presença estratégica até ela estar pronta para decidir.</div></div>
+    <div class="passos">
+      <div class="passo" id="us1"><div class="p-hdr" onclick="tP('us1')"><span class="pnum">SEMANA 2</span><span class="pttl">Conteúdo exclusivo relacionado à dor dela</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, estava pensando em você e preparei um conteúdo que tem tudo a ver com o que você me contou sobre <em>[dor específica]</em>. 💛
+
+<em>[Áudio de 1 min com uma dica personalizada OU texto curto com uma estratégia]</em>
+
+Espero que te ajude. 🤍</pre></div></div></div>
+      </div>
+      <div class="passo" id="us2"><div class="p-hdr" onclick="tP('us2')"><span class="pnum">SEMANA 3</span><span class="pttl">Resultado de paciente com perfil similar</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, vi esse resultado hoje e imediatamente pensei em você. 💛
+
+Essa paciente tinha exatamente o mesmo desafio que você: <em>[dor dela]</em>.
+
+📎 <em>[Resultado]</em>
+
+Quando você estiver pronta, me chama. 🤍</pre></div></div></div>
+      </div>
+      <div class="passo" id="us3"><div class="p-hdr" onclick="tP('us3')"><span class="pnum">SEMANA 4</span><span class="pttl">Curiosidade sobre a vida dela</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Passando pra dar um alô. 💛
+
+Como você está? Alguma novidade por aí?</pre></div></div>
+          <div class="dica">👁️ <div>Essa mensagem é propositalmente simples. O objetivo é lembrar que você existe sem parecer que está vendendo. Muitas vezes ela responde e a conversa se reabre naturalmente.</div></div>
+        </div>
+      </div>
+      <div class="passo" id="us4"><div class="p-hdr" onclick="tP('us4')"><span class="pnum">SEMANA 5</span><span class="pttl">Conteúdo novo do seu Instagram</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, postei um conteúdo essa semana que foi direto ao ponto sobre <em>[tema relacionado à dor dela]</em>.
+
+Acho que você vai gostar. 💛
+
+<em>[Link do post ou nome para ela buscar]</em></pre></div></div></div>
+      </div>
+      <div class="passo" id="us5"><div class="p-hdr" onclick="tP('us5')"><span class="pnum">SEMANA 6</span><span class="pttl">Depoimento ou transformação real</span><span class="pchv">▾</span></div>
+        <div class="pbody"><div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+          <div class="sbox"><pre><em>[Nome]</em>, queria te mostrar o que uma paciente me enviou essa semana. 💛
+
+Ela começou há <em>[tempo]</em> exatamente no mesmo ponto que você descreveu.
+
+📎 <em>[Depoimento real]</em>
+
+Isso é o que quero pra você também. Quando fizer sentido pra você, estarei aqui. 🤍</pre></div></div></div>
+      </div>
+      <div class="passo" id="us6"><div class="p-hdr" onclick="tP('us6')"><span class="pnum">SEMANA 7</span><span class="pttl">Encerramento do ciclo ativo com elegância</span><span class="pchv">▾</span></div>
+        <div class="pbody">
+          <div class="sw"><div class="slbl">Mensagem <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+            <div class="sbox"><pre>Oi, <em>[nome]</em>! Vim dar um alô final por aqui. 💛
+
+Sei que a vida é corrida e cada momento tem seu tempo certo.
+
+Quando você estiver pronta pra mudar de verdade, estarei aqui.
+
+Cuide-se muito. 🤍</pre></div></div>
+          <div class="dica">✅ <div>Após essa mensagem, encerre o ciclo ativo. Mova para "Frio" no CRM e inicie a Fase 3 abaixo.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fase">FASE 3 · CONTEÚDO PERMANENTE SEMANAL (DO MÊS 2 EM DIANTE, SEM PRAZO)</div>
+    <div class="dica">📱 <div><strong>A fase infinita:</strong> após as 13 mensagens das Fases 1 e 2, esse lead entra na sua lista de conteúdo permanente. Você envia 1 mensagem por semana para toda a lista, com conteúdo que não existe em nenhum outro lugar. Ela recebe isso até comprar ou bloquear você. Esse conteúdo mantém sua presença ativa sem parecer cobrança.</div></div>
+    <div class="cp-grid">
+      <div class="cp-card"><div class="cp-sem">Semana A</div><div class="cp-t">Conteúdo de valor exclusivo</div><div class="cp-d">Dica aprofundada, estratégia ou insight que você não posta no Instagram.</div></div>
+      <div class="cp-card"><div class="cp-sem">Semana B</div><div class="cp-t">Resultado ou transformação real</div><div class="cp-d">Caso clínico sem dados pessoais, evolução de paciente, depoimento emocionante.</div></div>
+      <div class="cp-card"><div class="cp-sem">Semana C</div><div class="cp-t">Bastidores do atendimento</div><div class="cp-d">Print de suporte, foto ou vídeo curto de bastidores com autorização.</div></div>
+      <div class="cp-card"><div class="cp-sem">Semana D</div><div class="cp-t">Conteúdo de saúde relevante</div><div class="cp-d">Informação nova sobre o nicho dela. Mostre que você está sempre atualizada.</div></div>
+    </div>
+    <div class="sw" style="margin-top:12px"><div class="slbl">Mensagem semanal de conteúdo permanente <button class="bcopy" onclick="cp(this)">COPIAR</button></div>
+      <div class="sbox"><pre>Oi, <em>[nome]</em>! Passei aqui pra te trazer algo que acho que vai fazer sentido pra você. 💛
+
+<em>[Conteúdo exclusivo: dica, resultado, insight, artigo]</em>
+
+Se quiser conversar sobre como isso se aplica pra você, me chama aqui. 🤍</pre></div></div>
+
+    <div class="dark-sec" style="margin-top:16px">
+      <div class="dark-ttl">Respostas para as <em>objeções mais comuns</em></div>
+      <div class="dark-sub">Quando ela responde com objeção, use esses scripts. Nunca deixe uma objeção sem resposta.</div>
+      <div class="dark-item"><strong>"Está muito caro":</strong> "Eu entendo, Maravilhosa. Mas posso te mostrar formas personalizadas de pagamento que cabem no seu momento agora? O que prefere: parcelamento no cartão ou um sinal pelo pix?"</div>
+      <div class="dark-item"><strong>"Vou pensar":</strong> "Claro, Maravilhosa! Pensar faz parte. Me conta: tem alguma dúvida específica que eu possa tirar pra te ajudar nessa decisão?"</div>
+      <div class="dark-item"><strong>"Preciso falar com meu marido":</strong> "Claro! Quando casamos, nosso parceiro faz parte de tudo. Inclusive, posso marcar uma conversa rápida com vocês dois se quiserem. No dia X às X vocês têm disponibilidade?"</div>
+      <div class="dark-item"><strong>"Já fiz dieta e não funcionou":</strong> "Eu entendo, e já atendi muitas mulheres que passaram pela mesma coisa. Por isso meu método é diferente: a gente constrói juntas um plano que encaixa na sua rotina, nos seus gostos e na sua realidade."</div>
+      <div class="dark-item"><strong>"Não tenho tempo":</strong> "Maravilhosa, eu consigo te agendar em horários que sejam mais tranquilos pra você e criar um plano que caiba na sua rotina real."</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-logo">nutri <em>que lucra</em></div>
+  <p>© Nutri que Lucra · Todos os direitos reservados<br>Material exclusivo para alunas · Compartilhar com terceiros é crime previsto na Lei 9.610/98.</p>
+</div>
+
+<script>
+function tF(id){document.getElementById(id).classList.toggle('open')}
+function tP(id){document.getElementById(id).classList.toggle('open')}
+function tC(el){
+  el.classList.toggle('done');
+  el.querySelector('.cbox').textContent=el.classList.contains('done')?'✓':'';
+}
+function cp(btn){
+  const t=btn.closest('.sw').querySelector('pre').innerText;
+  const ok=()=>{
+    const o=btn.textContent;
+    btn.textContent='✓ COPIADO';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},2000);
+  };
+  if(navigator.clipboard?.writeText)navigator.clipboard.writeText(t).then(ok).catch(()=>fb(t,ok));
+  else fb(t,ok);
+}
+function fb(t,cb){
+  const a=document.createElement('textarea');a.value=t;
+  a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);
+  a.focus();a.select();
+  try{document.execCommand('copy');if(cb)cb();}catch(e){}
+  document.body.removeChild(a);
+}
+</script>
+</body>
+</html>
